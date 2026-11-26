@@ -17,6 +17,7 @@
 
 ## 本機預覽
 
-`python -m http.server 8080 --directory site`，開啟 http://localhost:8080 。
+`python -m http.server 8080 --directory docs`，開啟 http://localhost:8080 。
 
 本儲存庫的 Markdown 與自行撰寫的網頁展示內容著作權歸作者所有，未授予通用開源授權；案例提及的小說、遊戲及素材另依各專案權利狀態處理。
+
