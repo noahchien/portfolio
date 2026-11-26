@@ -2,6 +2,8 @@
 
 # 你好，我是簡新佳。你也可以叫我 Noah。
 
+**繁體中文**　／　[English](README.en.md)
+
 **[打開完整作品集網站](https://noahchien.github.io/portfolio/)**　／　[工程經歷](projects/work.md)　／　[關於我](about.md)
 
 我喜歡把複雜的問題理清楚，再一步步做成真正能用的東西。

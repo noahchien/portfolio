@@ -1,5 +1,7 @@
 # 地城餘燼 · Cryptfall
 
+**繁體中文**　／　[English](cryptfall.en.md)
+
 Godot 4 的斜俯視地城探索 ARPG 原型，結合 Roguelite 的隨機地圖、戰鬥、裝備與升級選擇。
 
 ## 設計與原型內容
