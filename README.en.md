@@ -6,6 +6,8 @@
 
 **Target roles: Project Manager / Senior Software Engineer**　|　10+ years in software development
 
+![Project leadership](docs/assets/badge-role.svg) ![Financial systems](docs/assets/badge-domain.svg) ![Problem solving](docs/assets/badge-focus.svg)
+
 [Portfolio website](https://noahchien.github.io/portfolio/en.html)　·　[Engineering](projects/work.en.md)　·　[Background](about.en.md)　·　[Writing](projects/novel.en.md)　·　[Games](projects/cryptfall.en.md)
 
 From speech applications to financial systems, my work has covered implementation, systems analysis, project planning, and coordination. What I'd like you to remember is **my ability to keep a difficult problem moving toward a solution, even in an unfamiliar domain or with limited resources**.
@@ -13,6 +15,9 @@ From speech applications to financial systems, my work has covered implementatio
 Colleagues often come to me when a project gets stuck. Sometimes the next step is clearer requirements; sometimes it's understanding why a case cannot be tested. And sometimes the most useful answer is a small tool that keeps a whole team from getting stuck in the same place again.
 
 ## Three projects to start with
+
+> [!IMPORTANT]
+> **FPGA development completed more than a year ahead of the original estimate**, after development staffing fell from three people to one. I owned planning, technical direction, code review, and validation. **Not yet in production**; now a foundation for a follow-on project.
 
 | Project | The challenge | My responsibility and outcome |
 | --- | --- | --- |
@@ -22,7 +27,7 @@ Colleagues often come to me when a project gets stuck. Sometimes the next step i
 
 Together, they illustrate **project ownership, test design, and reusable tooling for teams**.
 
-## FPGA: keeping development moving after the team shrank
+## 🔧 FPGA: keeping development moving after the team shrank
 
 ### The challenge
 
@@ -46,7 +51,10 @@ Development was completed **more than a year ahead of the original estimated dev
 
 [Read the FPGA case study](projects/fpga.en.md)
 
-## Virtual exchange: make difficult cases reproducible
+> [!TIP]
+> **Tools used by real teams:** the virtual exchange supports risk-control developers with **scripted edge cases, stress tests, and log replay**. Logger Monitor helps multiple IT teams with **configurable checks and LINE / Telegram notifications**.
+
+## 🧪 Virtual exchange: make difficult cases reproducible
 
 The risk-control development team had relied on manual testing. Many edge cases were difficult to cover, and even incidents that had already occurred in the real environment were hard to recreate.
 
@@ -60,7 +68,7 @@ The value is **turning a one-off incident into a scenario the team can observe a
 
 [Read the testing-tools case study](projects/testing-tools.en.md)
 
-## Logger Monitor: take repeatable checks out of manual inspection
+## 🔎 Logger Monitor: take repeatable checks out of manual inspection
 
 IT teams had been checking logs by hand, which left room for omissions. I developed Logger Monitor for use across multiple teams, with configurable checks and notifications.
 
@@ -83,7 +91,7 @@ The virtual exchange and Logger Monitor use technologies including Python and No
 | **Connect financial workflows with software** | Securities risk control and trading, trust services, and insurance payment platforms |
 | **Connect requirements, development, and people** | Systems analysis, architecture and database design, code reviews, vendor progress, and requirements discussions |
 
-## Technical background
+## 🛠️ Technical background
 
 - **Backend and systems:** Java/Spring, C/C++, Node.js, Python, JavaScript, REST APIs, and database design.
 - **Development and delivery:** Git, Docker, Jenkins, Linux, and DevOps collaboration.
