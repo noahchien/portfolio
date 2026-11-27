@@ -104,6 +104,10 @@
 
 ## 工作以外，我也在創造自己的世界
 
+[![播放Cryptfall引擎內測試影片](docs/media/cryptfall-video-poster.jpg)](https://noahchien.github.io/portfolio/#projects)
+
+**[播放遊戲影片](https://noahchien.github.io/portfolio/#projects)**：怪物骨架與攻擊前搖（0.6倍速），另有法師半速施法預覽。均為引擎內測試，非完整正常速度遊玩片段。
+
 **小說與內容工程**：長篇故事越寫越長，角色、設定與伏筆也越來越多。我用Git、章綱檢核、人物關係圖和手機審稿，讓創作能持續接續。正式正文到第35章；更長期的章綱與工具仍在整理。[創作案例](projects/novel.md)
 
 **地城餘燼 Cryptfall**：把隨機地城、職業戰鬥、裝備與升級選擇做成Godot原型，探索一個想玩的世界。現階段為開發原型，尚未正式發行。[遊戲案例](projects/cryptfall.md)

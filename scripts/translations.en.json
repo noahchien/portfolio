@@ -133,5 +133,13 @@
   "虛擬交易所讓風控團隊以腳本設定特殊案例、執行自動壓力測試，並匯入日誌重現實際事件。Logger Monitor則檢查檔案與異常關鍵字，提供INI設定，透過LINE／Telegram Bot通報，減少人工巡查的負擔與漏查風險。": "The virtual exchange lets risk-control developers script special scenarios, run automated stress tests, and import logs to reproduce actual events. Logger Monitor checks file existence and error keywords, supports INI settings, and notifies through LINE and Telegram bots, reducing manual inspection and the risk of omissions.",
   "日誌重現與壓測": "Log replay & stress tests",
   "可設定監控": "Configurable monitoring",
-  "閱讀團隊工具案例": "Read the team-tool case studies"
+  "閱讀團隊工具案例": "Read the team-tool case studies",
+  "Cryptfall怪物骨架與攻擊前搖，引擎內測試，0.6倍速": "Cryptfall monster rigging and attack wind-up, in-engine test at 0.6x speed",
+  "瀏覽器不支援影片，請下載觀看。": "Your browser does not support this video. Please download it to watch.",
+  "怪物骨架與攻擊前搖 · Godot引擎內測試 · 0.6倍速 · 無聲": "Monster rigs & attack wind-up · Godot in-engine test · 0.6x speed · Silent",
+  "再看法師施法動畫": "Watch the mage casting preview",
+  "法師施法動畫，引擎內雙角度半速預覽": "Mage casting animation, dual-angle in-engine preview at half speed",
+  "法師施法動畫 · 引擎內半速預覽 · 無聲": "Mage casting animation · In-engine preview at half speed · Silent",
+  "法師模型與貼圖由Meshy 6 Lite依原創設定生成，採CC BY 4.0；遊戲端調整網格、骨架、蒙皮並整合武器與動畫。": "Mage model and textures generated with Meshy 6 Lite from original character concepts, licensed under CC BY 4.0. The game includes mesh, rigging, and skinning changes, with integrated weapons and animation.",
+  "CC BY 4.0授權": "CC BY 4.0 license"
 }

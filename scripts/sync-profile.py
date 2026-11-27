@@ -8,7 +8,7 @@ for name in ('README.md','README.en.md'):
     text=(root/name).read_text(encoding='utf8')
     def link(match):
         target=match.group(1)
-        if target.startswith('docs/assets/'):
+        if target.startswith(('docs/assets/','docs/media/')):
             return ']('+'https://raw.githubusercontent.com/noahchien/portfolio/main/'+target+')'
         if target.startswith('projects/') or target.startswith('about'):
             return ']('+'https://github.com/noahchien/portfolio/blob/main/'+target+')'
