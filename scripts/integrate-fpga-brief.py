@@ -4,7 +4,7 @@ root=Path(__file__).resolve().parents[1]
 zh='''## 🔧 FPGA：接手交大專案，把既有基礎整合到實機
 
 > [!NOTE]
-> **接手交大專案後，五個月內完成整合。** 既有研究與程式來自交大；我負責接手後的整合、開發與驗證，不是從零獨立開發。
+> **接手交大開發到一半的專案後，五個月內完成整合。** 原先交大預計開發五年，在第三年中途我負責接手專案PM，包含整合、開發與驗證。
 
 ### 下單前風控閘道｜我主導整合與開發
 
@@ -43,7 +43,7 @@ zh='''## 🔧 FPGA：接手交大專案，把既有基礎整合到實機
 en='''## 🔧 FPGA: take over a university foundation and integrate it on hardware
 
 > [!NOTE]
-> **Completed integration within five months after taking over a National Chiao Tung University project.** Existing research and code came from the university. I owned subsequent integration, development, and validation, rather than building everything independently from scratch.
+> **Completed integration within five months after taking over an in-progress National Chiao Tung University project.** The university had planned a five-year development schedule. I took over as project manager partway through the third year, with responsibility for integration, development, and validation.
 
 ### Pre-trade risk gateway | Integration and development lead
 
@@ -88,9 +88,9 @@ for name,body in [('README.md',zh),('README.en.md',en)]:
  p.write_text(s,encoding='utf8')
 page=root/'docs/index.html';s=page.read_text(encoding='utf8');old=re.search(r'<article class="work-item"><div class="work-company">FPGA專案[\s\S]*?</article>',s)
 assert old
-paragraph='接手交大專案後，五個月內完成整合。我主導風控規則萃取、整合開發與雙基準驗證，FPGA內部風控判斷約0.36 µs；另負責大學團隊套利系統的實機驗證，同晚同行情對照中錯誤委託由60降至0。既有研究與程式來自交大，成果建立在接手整合與實機驗證之上。'
+paragraph='交大原訂五年開發計畫，我於第三年中途接手專案PM，負責整合、開發與驗證，五個月內完成整合。我主導風控規則萃取、整合開發與雙基準驗證，FPGA內部風控判斷約0.36 µs；另負責大學團隊套利系統的實機驗證，同晚同行情對照中錯誤委託由60降至0。既有研究與程式來自交大，成果建立在接手整合與實機驗證之上。'
 new=re.sub(r'<h3>.*?</h3>','<h3>接手既有基礎，把系統整合到實機。</h3>',old.group(),count=1)
 new=re.sub(r'<p>.*?</p>','<p>'+paragraph+'</p>',new,count=1);s=s.replace(old.group(),new);page.write_text(s,encoding='utf8')
 f=root/'scripts/translations.en.json';d=json.loads(f.read_text(encoding='utf8'));d.update({
 '接手既有基礎，把系統整合到實機。':'Build on an existing foundation. Integrate it on real hardware.',
-paragraph:'Completed integration within five months after taking over a National Chiao Tung University project. I led risk-rule extraction, integration development, and dual-reference validation, with FPGA-internal risk decisions of approximately 0.36 µs. Separately led hardware validation of a university-developed arbitrage system: erroneous orders fell from 60 to 0 in the same-night, same-data comparison. The work built on existing university research and code.'});f.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+paragraph:'The university project had a five-year development plan. I took over as project manager partway through its third year, responsible for integration, development, and validation, and completed integration within five months. I led risk-rule extraction, integration development, and dual-reference validation, with FPGA-internal risk decisions of approximately 0.36 µs. Separately led hardware validation of a university-developed arbitrage system: erroneous orders fell from 60 to 0 in the same-night, same-data comparison. The work built on existing university research and code.'});f.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n',encoding='utf8')

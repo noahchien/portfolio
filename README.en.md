@@ -30,7 +30,7 @@ Together, they illustrate **project ownership, test design, and reusable tooling
 ## 🔧 FPGA: take over a university foundation and integrate it on hardware
 
 > [!NOTE]
-> **Completed integration within five months after taking over a National Chiao Tung University project.** Existing research and code came from the university. I owned subsequent integration, development, and validation, rather than building everything independently from scratch.
+> **Completed integration within five months after taking over an in-progress National Chiao Tung University project.** The university had planned a five-year development schedule. I took over as project manager partway through the third year, with responsibility for integration, development, and validation.
 
 ### Pre-trade risk gateway | Integration and development lead
 

@@ -3,7 +3,7 @@
 [繁體中文](fpga.md)　／　**English**
 
 > [!IMPORTANT]
-> **Completed integration within five months after taking over a National Chiao Tung University project.** The work built on existing university research and code. My contribution was subsequent integration, development, and validation, not an independent build from scratch.
+> **Completed integration within five months after taking over an in-progress National Chiao Tung University project.** The university had planned a five-year development schedule. I took over as project manager partway through the third year, with responsibility for integration, development, and validation.
 
 ## Two projects, distinct responsibilities
 
