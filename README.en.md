@@ -21,35 +21,49 @@ Colleagues often come to me when a project gets stuck. Sometimes the next step i
 
 | Project | The challenge | My responsibility and outcome |
 | --- | --- | --- |
-| **FPGA development** | A specialized, logic-circuit-oriented domain; development staffing fell from three people to one | Owned planning, development, progress, and quality decisions. Reorganized implementation around engineer-led AI collaboration and completed development more than a year ahead of the original estimated development schedule. Not yet in production; serving as a foundation for the next project. |
+| **FPGA trading systems** | Took over a university foundation; integrated rules, hardware, and trading interfaces as staffing fell from three to one | Integration within five months; approximately 0.36 µs internal risk decisions. Separately led arbitrage-system validation: erroneous orders 60 to 0 in a same-night, same-data comparison. |
 | **Virtual exchange** | Manual testing could not cover many edge cases; real incidents were difficult to reproduce | Built tooling for the risk-control development team, supporting scripted scenarios, automated stress tests, and replay of actual incidents from imported logs. |
 | **Logger Monitor** | Multiple IT teams relied on manual log checks, with a risk of missed issues | Checks file existence and error keywords, supports team-specific INI settings, and sends notifications through LINE and Telegram Bot APIs. |
 
 Together, they illustrate **project ownership, test design, and reusable tooling for teams**.
 
-## 🔧 FPGA: keeping development moving after the team shrank
+## 🔧 FPGA: take over a university foundation and integrate it on hardware
 
-### The challenge
+> [!NOTE]
+> **Completed integration within five months after taking over a National Chiao Tung University project.** Existing research and code came from the university. I owned subsequent integration, development, and validation, rather than building everything independently from scratch.
 
-FPGA development was a specialized area with a strong logic-circuit focus, and staffing fell from three people to just me. The way I had been developing the project needed to change so that implementation would not crowd out planning and quality work.
+### Pre-trade risk gateway | Integration and development lead
 
-### How I organized the work
+Moved existing price, credit-limit, inventory, and other risk checks into FPGA logic while establishing shared rules for development and validation.
 
-I moved most code implementation to AI-assisted development while retaining responsibility for:
+| Focus | My work and outcomes |
+| --- | --- |
+| **Rules extraction** | Resolved 57 differences across two generations of existing systems and created machine-readable rules as a shared development and testing reference. |
+| **Predictable latency** | FPGA-internal risk decisions took 109 cycles at 300 MHz, approximately **0.36 µs**; this is not end-to-end trading latency. |
+| **Dual-reference validation** | Compared reference-model and FPGA decisions order by order, then hardware against simulation; 12 deliberately corrupted variants checked that the comparison detected faults. |
+| **Trading integration** | Successful execution and cancellation in the TWSE test environment; retained original-order information to complete cancellation messages. |
+| **Timing and recovery** | Timing closure at 300 MHz; handled sequence numbers, reconnection, and duplicate-submission risks, stopping for reconciliation when state was uncertain. |
 
-- **Direction and planning:** what to build, whether the technical direction was sound, and when to adjust it.
-- **Code review:** reading the output and checking its assumptions and domain understanding.
-- **On-site judgment:** verifying the actual environment when AI assumptions did not match the machines.
-- **Validation and quality:** understanding the intended outcome, choosing how to verify it, and checking actual results against the goal.
-- **Progress management:** organizing and tracking development after staffing was reduced.
+### Options parity arbitrage | Hardware validation lead
 
-For example, the AI assumed the machine had one network interface when the actual setup had two. I checked the environment, explained the incorrect premise, and worked with it to correct the implementation. **Generating code and knowing whether that code fits the real environment are different responsibilities.**
+The original system was developed by a university team. My responsibility was making it work correctly in the actual environment, not claiming the original system's development as my own.
 
-### Outcome and current status
+- **Erroneous orders, 60 to 0:** traced stage counters to a variable synthesized into a constant. After correction, the same-night, same-market-data comparison went from 60 erroneous arbitrage orders to 0.
+- **Instrument matches, 0 to 241,770:** corrected a market-data format and decoder mismatch, restoring successful matches in the reported observation.
+- **Connectivity diagnosis:** traced a suspected hardware issue to an address conflict between the host and FPGA, then resolved the connection by changing the conflicting interface state.
+- **Market-data services:** clarified aggregated versus tick-by-tick access and verified stable FPGA receipt of tick-by-tick data.
 
-Development was completed **more than a year ahead of the original estimated development schedule**. The project is not yet in production; it is being used as a technical foundation for a follow-on project. The schedule improvement refers to development, not a production launch or an unreported performance benchmark.
+### People still own resource decisions and quality
 
-[Read the FPGA case study](projects/fpga.en.md)
+When staffing fell from three people to one, I retained planning, progress tracking, and technical direction, using AI for most code implementation while reviewing output, checking the environment, and defining validation. Development progressed more than a year ahead of the original estimated schedule.
+
+I use counters, packet captures, and hardware-versus-simulation comparisons to find evidence. Understanding the intended outcome comes before judging the result. This is the problem-solving responsibility I want to bring to a team.
+
+**Technology:** `Alveo U50` · `HLS C++` · `10G Ethernet / TCP` · `FIX 4.4` · `300 MHz`
+
+The system is a foundation for follow-on work and is not yet in production. Figures retain their measurement scope; a single comparison is not a claim of universal error-free behavior.
+
+[Read the full FPGA case and measurement scope](projects/fpga.en.md)
 
 > [!TIP]
 > **Tools used by real teams:** the virtual exchange supports risk-control developers with **scripted edge cases, stress tests, and log replay**. Logger Monitor helps multiple IT teams with **configurable checks and LINE / Telegram notifications**.

@@ -141,5 +141,7 @@
   "法師施法動畫，引擎內雙角度半速預覽": "Mage casting animation, dual-angle in-engine preview at half speed",
   "法師施法動畫 · 引擎內半速預覽 · 無聲": "Mage casting animation · In-engine preview at half speed · Silent",
   "法師模型與貼圖由Meshy 6 Lite依原創設定生成，採CC BY 4.0；遊戲端調整網格、骨架、蒙皮並整合武器與動畫。": "Mage model and textures generated with Meshy 6 Lite from original character concepts, licensed under CC BY 4.0. The game includes mesh, rigging, and skinning changes, with integrated weapons and animation.",
-  "CC BY 4.0授權": "CC BY 4.0 license"
+  "CC BY 4.0授權": "CC BY 4.0 license",
+  "接手既有基礎，把系統整合到實機。": "Build on an existing foundation. Integrate it on real hardware.",
+  "接手交大專案後，五個月內完成整合。我主導風控規則萃取、整合開發與雙基準驗證，FPGA內部風控判斷約0.36 µs；另負責大學團隊套利系統的實機驗證，同晚同行情對照中錯誤委託由60降至0。既有研究與程式來自交大，成果建立在接手整合與實機驗證之上。": "Completed integration within five months after taking over a National Chiao Tung University project. I led risk-rule extraction, integration development, and dual-reference validation, with FPGA-internal risk decisions of approximately 0.36 µs. Separately led hardware validation of a university-developed arbitrage system: erroneous orders fell from 60 to 0 in the same-night, same-data comparison. The work built on existing university research and code."
 }
