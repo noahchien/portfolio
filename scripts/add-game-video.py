@@ -21,8 +21,8 @@ file=root/'scripts/translations.en.json';data=json.loads(file.read_text(encoding
 'CC BY 4.0授權':'CC BY 4.0 license'
 });file.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 for name,heading,body in [
-('README.md','## 工作以外，我也在創造自己的世界','[![播放Cryptfall引擎內測試影片](docs/media/cryptfall-video-poster.jpg)](https://noahchien.github.io/portfolio/#projects)\n\n**[播放遊戲影片](https://noahchien.github.io/portfolio/#projects)**：怪物骨架與攻擊前搖（0.6倍速），另有法師半速施法預覽。均為引擎內測試，非完整正常速度遊玩片段。'),
-('README.en.md',"## Outside work, I'm creating worlds of my own",'[![Watch the Cryptfall in-engine video](docs/media/cryptfall-video-poster.jpg)](https://noahchien.github.io/portfolio/en.html#projects)\n\n**[Watch the game videos](https://noahchien.github.io/portfolio/en.html#projects)**: monster rigs and attack wind-up at 0.6x speed, plus a half-speed mage casting preview. These are in-engine tests, not full normal-speed gameplay.')]:
+('README.md','## 工作以外，我也在創造自己的世界','[![播放Cryptfall引擎內測試影片](docs/media/cryptfall-preview.gif)](https://noahchien.github.io/portfolio/#projects)\n\n**[播放遊戲影片](https://noahchien.github.io/portfolio/#projects)**：怪物骨架與攻擊前搖（0.6倍速），另有法師半速施法預覽。均為引擎內測試，非完整正常速度遊玩片段。'),
+('README.en.md',"## Outside work, I'm creating worlds of my own",'[![Watch the Cryptfall in-engine video](docs/media/cryptfall-preview.gif)](https://noahchien.github.io/portfolio/en.html#projects)\n\n**[Watch the game videos](https://noahchien.github.io/portfolio/en.html#projects)**: monster rigs and attack wind-up at 0.6x speed, plus a half-speed mage casting preview. These are in-engine tests, not full normal-speed gameplay.')]:
  p=root/name;s=p.read_text(encoding='utf8')
- if 'docs/media/cryptfall-video-poster.jpg' not in s:s=s.replace(heading,heading+'\n\n'+body)
+ if 'docs/media/cryptfall-preview.gif' not in s:s=s.replace(heading,heading+'\n\n'+body)
  p.write_text(s,encoding='utf8')

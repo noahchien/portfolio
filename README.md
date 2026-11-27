@@ -104,7 +104,7 @@
 
 ## 工作以外，我也在創造自己的世界
 
-[![播放Cryptfall引擎內測試影片](docs/media/cryptfall-video-poster.jpg)](https://noahchien.github.io/portfolio/#projects)
+[![播放Cryptfall引擎內測試影片](docs/media/cryptfall-preview.gif)](https://noahchien.github.io/portfolio/#projects)
 
 **[播放遊戲影片](https://noahchien.github.io/portfolio/#projects)**：怪物骨架與攻擊前搖（0.6倍速），另有法師半速施法預覽。均為引擎內測試，非完整正常速度遊玩片段。
 
