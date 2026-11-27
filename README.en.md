@@ -1,147 +1,131 @@
 [![Noah Chien | I build software. With people in mind.](docs/assets/cover-en.svg)](https://noahchien.github.io/portfolio/en.html)
 
-# I'm Noah Chien. I help move problems toward solutions.
+# Noah Chien
 
 [繁體中文](README.md)　／　**English**
 
-**Target roles: Project Manager / Senior Software Engineer**　|　10+ years in software development
+**Project Manager / Senior Software Engineer**　|　10+ years in software development
 
 ![Project leadership](docs/assets/badge-role.svg) ![Financial systems](docs/assets/badge-domain.svg) ![Problem solving](docs/assets/badge-focus.svg)
 
 [Portfolio website](https://noahchien.github.io/portfolio/en.html)　·　[Engineering](projects/work.en.md)　·　[Background](about.en.md)　·　[Writing](projects/novel.en.md)　·　[Games](projects/cryptfall.en.md)
 
-From speech applications to financial systems, my work has covered implementation, systems analysis, project planning, and coordination. What I'd like you to remember is **my ability to keep a difficult problem moving toward a solution, even in an unfamiliar domain or with limited resources**.
+I've built speech applications and insurance, trust, and securities systems, working as a developer, systems analyst, and project lead. I currently run risk-control and trading systems at Concords Securities. My recent focus is low-latency trading on FPGA: I took over as project manager of a five-year university partnership in its third year, and after the development team shrank from three people to one, development finished more than a year ahead of the original schedule.
 
-Colleagues often come to me when a project gets stuck. Sometimes the next step is clearer requirements; sometimes it's understanding why a case cannot be tested. And sometimes the most useful answer is a small tool that keeps a whole team from getting stuck in the same place again.
+I'm good at problems nobody on the team knows well and that don't have enough people behind them. I start by getting the requirements and the current state straight, find what is actually blocking progress, and when it helps, write a tool so the team stops hitting the same wall.
 
-## Three projects to start with
+## Selected work
 
-> [!IMPORTANT]
-> **FPGA development completed more than a year ahead of the original estimate**, after development staffing fell from three people to one. I owned planning, technical direction, code review, and validation.
-
-| Project | The challenge | My responsibility and outcome |
+| Project | Problem | What I did |
 | --- | --- | --- |
-| **FPGA trading systems** | Took over a university foundation; integrated rules, hardware, and trading interfaces as staffing fell from three to one | Integration within five months; approximately 0.36 µs internal risk decisions. Separately led arbitrage-system validation: erroneous orders 60 to 0 in a same-night, same-data comparison. |
-| **Virtual exchange** | Manual testing could not cover many edge cases; real incidents were difficult to reproduce | Built tooling for the risk-control development team, supporting scripted scenarios, automated stress tests, and replay of actual incidents from imported logs. |
-| **Logger Monitor** | Multiple IT teams relied on manual log checks, with a risk of missed issues | Checks file existence and error keywords, supports team-specific INI settings, and sends notifications through LINE and Telegram Bot APIs. |
+| **FPGA pre-trade risk control** | Move a broker's pre-trade risk checks into an FPGA, with the team reduced from three people to one | Led planning and development. Went from feasibility study to orders filled and cancelled on the stock exchange's test environment in five months. Risk check inside the FPGA takes about 0.36 µs |
+| **Options arbitrage FPGA, hardware debugging** | A university-built system passed every simulation but kept misbehaving on live market data | Led the late-stage hardware debugging and fixes. In a same-night, same-feed comparison, erroneous orders dropped from 60 to 0 |
+| **Virtual exchange** | The risk team tested by hand, edge cases went untested, and production incidents were hard to reproduce | Built a test tool with scripted scenarios, automated stress tests, and log replay |
+| **Logger Monitor** | Several teams read logs by hand and sometimes missed problems | Built a configurable log checker that alerts through LINE and Telegram |
 
-Together, they illustrate **project ownership, test design, and reusable tooling for teams**.
+## Low-latency trading on FPGA
 
-## 🔧 FPGA: take over a university foundation and integrate it on hardware
+This was a five-year university partnership. I took over as project manager partway through its third year, responsible for integration, development, and validation. Two systems came out of it: the university's arbitrage system, which I made work on real hardware, and a new risk-control system that I led.
 
-> [!NOTE]
-> **Completed integration within five months after taking over an in-progress National Chiao Tung University project.** The university had planned a five-year development schedule. I took over as project manager partway through the third year, with responsibility for integration, development, and validation.
+### Pre-trade risk gateway (led)
 
-### Pre-trade risk gateway | Integration and development lead
+Every order has to pass price, credit-limit, and inventory checks before it goes out. Server software used to do this. This project moved the checks into an FPGA so they finish in a fixed amount of time.
 
-Moved existing price, credit-limit, inventory, and other risk checks into FPGA logic while establishing shared rules for development and validation.
-
-| Focus | My work and outcomes |
+| Area | Details |
 | --- | --- |
-| **Rules extraction** | Resolved 57 differences across two generations of existing systems and created machine-readable rules as a shared development and testing reference. |
-| **Predictable latency** | FPGA-internal risk decisions took 109 cycles at 300 MHz, approximately **0.36 µs**; this is not end-to-end trading latency. |
-| **Dual-reference validation** | Compared reference-model and FPGA decisions order by order, then hardware against simulation; 12 deliberately corrupted variants checked that the comparison detected faults. |
-| **Trading integration** | Successful execution and cancellation in the TWSE test environment; retained original-order information to complete cancellation messages. |
-| **Timing and recovery** | Timing closure at 300 MHz; handled sequence numbers, reconnection, and duplicate-submission risks, stopping for reconciliation when state was uncertain. |
+| Rules | Extracted the rules from two generations of existing risk systems, resolved 57 differences between them, and turned them into a machine-readable rule table that both development and testing work from |
+| Latency | 109 clock cycles at 300 MHz, about 0.36 µs, for one order's risk check inside the FPGA. Network round trip is not included |
+| Validation | Fed the same orders to a reference model of the current system and to the FPGA and compared every decision. After moving to hardware, compared hardware against simulation, and used 12 deliberately corrupted data sets to prove the comparison catches errors |
+| Exchange | Logged in, had orders filled, and cancelled orders on the stock exchange's test environment. Cancel messages don't carry the full original order, so the FPGA keeps a copy when the order goes out and fills in the gaps itself. The exchange confirmed cancellations within 3 ms |
+| Reliability | Timing closure at 300 MHz. Session sequence numbers and reconnect rules prevent duplicate orders; when state is uncertain, the system stops for manual review |
 
-### Options parity arbitrage | Hardware validation lead
+I owned planning, technical direction, code review, and validation, and used AI tools heavily for implementation. The system is the base for a follow-on project and is not in production yet.
 
-The original system was developed by a university team. My responsibility was making it work correctly in the actual environment, not claiming the original system's development as my own.
+`Alveo U50` · `HLS C++` · `10G Ethernet / TCP` · `FIX 4.4` · `300 MHz`
 
-- **Erroneous orders, 60 to 0:** traced stage counters to a variable synthesized into a constant. After correction, the same-night, same-market-data comparison went from 60 erroneous arbitrage orders to 0.
-- **Instrument matches, 0 to 241,770:** corrected a market-data format and decoder mismatch, restoring successful matches in the reported observation.
-- **Connectivity diagnosis:** traced a suspected hardware issue to an address conflict between the host and FPGA, then resolved the connection by changing the conflicting interface state.
-- **Market-data services:** clarified aggregated versus tick-by-tick access and verified stable FPGA receipt of tick-by-tick data.
+### Options put-call parity arbitrage (late-stage debugging and exchange integration)
 
-### People still own resource decisions and quality
+The university team built the first version. It passed simulation but kept failing on live data. I led the late-stage hardware debugging, the fixes, and the connection to the futures exchange.
 
-When staffing fell from three people to one, I retained planning, progress tracking, and technical direction, using AI for most code implementation while reviewing output, checking the environment, and defining validation. Development progressed more than a year ahead of the original estimated schedule.
+- **Erroneous orders, 60 → 0:** Read counters stage by stage and traced the problem to a variable that hardware synthesis had turned into a constant. After the fix, a same-night, same-feed comparison went from 60 erroneous orders to 0.
+- **Symbol matches, 0 → 241,770:** The market-data format didn't match the decoder. After rewriting the decoder, matching worked again in that test run.
+- **Exchange connection:** Connected the FPGA to the production market-data feed and had it log in to the futures exchange on its own. Logins kept failing and looked like a hardware fault; the real cause was the host and the FPGA sharing one network address. With the host's interface turned off, both the futures and options sessions logged in.
+- **Market-data channels:** Worked out how to obtain the exchange's aggregated feed and its tick-by-tick feed, and confirmed the FPGA receives the tick-by-tick feed reliably.
 
-I use counters, packet captures, and hardware-versus-simulation comparisons to find evidence. Understanding the intended outcome comes before judging the result. This is the problem-solving responsibility I want to bring to a team.
+[Full FPGA case study](projects/fpga.en.md)
 
-**Technology:** `Alveo U50` · `HLS C++` · `10G Ethernet / TCP` · `FIX 4.4` · `300 MHz`
+## Virtual exchange
 
-The system is a foundation for follow-on work and is not yet in production. Figures retain their measurement scope; a single comparison is not a claim of universal error-free behavior.
+The risk-control developers tested by hand, so many edge cases never got tested, and problems seen in production were hard to recreate.
 
-[Read the full FPGA case and measurement scope](projects/fpga.en.md)
+I built a virtual exchange for them:
 
-> [!TIP]
-> **Tools used by real teams:** the virtual exchange supports risk-control developers with **scripted edge cases, stress tests, and log replay**. Logger Monitor helps multiple IT teams with **configurable checks and LINE / Telegram notifications**.
+- Scripts define the edge cases to test
+- Automated stress tests
+- Real logs can be imported and replayed
 
-## 🧪 Virtual exchange: make difficult cases reproducible
+A problem that happened once in production can now be reproduced in testing and investigated at leisure.
 
-The risk-control development team had relied on manual testing. Many edge cases were difficult to cover, and even incidents that had already occurred in the real environment were hard to recreate.
+[Testing tools](projects/testing-tools.en.md)
 
-I developed a virtual exchange so the team could:
+## Logger Monitor
 
-- Write scripts to define special test scenarios.
-- Run automated stress tests with less reliance on manual operation.
-- Import real logs to reproduce events and support investigation.
+Several IT teams checked their logs by hand and things slipped through. I built Logger Monitor for them to share:
 
-The value is **turning a one-off incident into a scenario the team can observe and analyze again**.
-
-[Read the testing-tools case study](projects/testing-tools.en.md)
-
-## 🔎 Logger Monitor: take repeatable checks out of manual inspection
-
-IT teams had been checking logs by hand, which left room for omissions. I developed Logger Monitor for use across multiple teams, with configurable checks and notifications.
-
-| Check | Approach |
+| Check | How |
 | --- | --- |
-| File existence | Confirm that the expected log file exists |
-| Error indicators | Look for configured keywords, such as ERROR, termination-related messages, and catch |
-| Team-specific needs | Adjust checks through INI configuration |
-| Notifications | Send alerts through LINE and Telegram Bot APIs |
+| Log file exists | Confirms the expected files are there |
+| Errors | Searches for ERROR, abort, catch, and similar keywords |
+| Team-specific needs | Checks are configured in INI files |
+| Alerts | Sends notifications through LINE and Telegram bots |
 
-The virtual exchange and Logger Monitor use technologies including Python and Node.js. They serve the risk-control development team and multiple IT teams respectively. I do not claim unmeasured time savings or zero missed alerts.
+Both tools are written in Python and Node.js.
 
-## What I can bring to the next team
+## Strengths
 
-| Capability | Experience behind it |
+| Strength | Where it shows |
 | --- | --- |
-| **Break down an unfamiliar problem** | FPGA planning, implementation trade-offs, on-site checks, and validation decisions |
-| **Adapt delivery to limited resources** | Reorganized AI-assisted implementation and review after staffing fell from three people to one |
-| **Turn experience into reusable tools** | Scripted scenarios, log-based incident reproduction, and cross-team log monitoring |
-| **Connect financial workflows with software** | Securities risk control and trading, trust services, and insurance payment platforms |
-| **Connect requirements, development, and people** | Systems analysis, architecture and database design, code reviews, vendor progress, and requirements discussions |
+| Unfamiliar territory | Planning, trade-offs, and hardware validation on the FPGA project |
+| Short-handed teams | When the FPGA team went from three people to one, I moved implementation to AI tools and kept review and validation myself |
+| Turning experience into tools | Scripted tests, log replay, cross-team log monitoring |
+| Financial domain | Securities risk control and trading, trust services, insurance payments |
+| Requirements to delivery | Systems analysis, architecture and database design, code review, vendor management, stakeholder communication |
 
-## 🛠️ Technical background
+## Technical background
 
-- **Backend and systems:** Java/Spring, C/C++, Node.js, Python, JavaScript, REST APIs, and database design.
-- **Development and delivery:** Git, Docker, Jenkins, Linux, and DevOps collaboration.
-- **Other project experience:** MongoDB, Elasticsearch, data-observation platforms, and speech recognition and synthesis applications.
-- **Recent focus:** FPGA projects, engineer-led AI collaboration, testing tools, and monitoring tools.
+- **Backend and systems:** Java/Spring, C/C++, Node.js, Python, JavaScript, REST APIs, database design
+- **Tooling:** Git, Docker, Jenkins, Linux, DevOps
+- **Other:** MongoDB, Elasticsearch, data-observation platforms, speech recognition and synthesis
+- **Recent:** FPGA (HLS, Alveo), testing and monitoring tools
 
 ## Career experience
 
-| Organization | Focus |
+| Organization | Work |
 | --- | --- |
-| Concord Securities · R&D Assistant Manager | Risk control and trading, development coordination, maintenance, workflow digitization |
+| Concords Securities · R&D Assistant Manager | Risk control and trading, development coordination, maintenance, workflow digitization |
 | CTBC Bank · Engineer | Trust services, system upgrades, architecture, and testing |
 | Fubon Life · Senior Specialist | Payment platforms, system and database design, code reviews, vendor coordination |
 | Institute for Information Industry · Software Engineer | Frontend/backend development, data platforms, Redmine, and DevOps |
 | NCCC, Cyberon, Inventec | Systems analysis, speech applications, mobile/Windows software, and production-line testing |
 
-Computer Science graduate, National Chiao Tung University. [Read my background](about.en.md)
+Computer Science graduate, National Chiao Tung University. [Background](about.en.md)
 
-## Outside work, I'm creating worlds of my own
+## Outside work
 
 [![Watch the Cryptfall in-engine video](docs/media/cryptfall-preview.gif)](https://noahchien.github.io/portfolio/en.html#projects)
 
-**[Watch the game videos](https://noahchien.github.io/portfolio/en.html#projects)**: monster rigs and attack wind-up at 0.6x speed, plus a half-speed mage casting preview. These are in-engine tests, not full normal-speed gameplay.
+**[Game videos](https://noahchien.github.io/portfolio/en.html#projects)**: monster rigs and attack wind-up at 0.6x speed, and a half-speed mage casting preview. Both are in-engine tests.
 
-**Fiction and content tooling:** As stories grow, so do characters, settings, and loose threads. Git, outline checks, relationship maps, and mobile review pages help me keep the work connected. The finalized manuscript currently reaches Chapter 35; longer-term outlines and tooling remain in progress. [Writing project](projects/novel.en.md)
+**Long-form fiction:** The story keeps growing, and so do the characters, settings, and loose threads. I manage them with Git, outline checks, relationship maps, and mobile review pages. The manuscript is at Chapter 35. [Writing project](projects/novel.en.md)
 
-**Cryptfall:** A Godot prototype exploring procedural dungeons, class-based combat, equipment, and upgrade choices. It is a development prototype, not a released game. [Game project](projects/cryptfall.en.md)
+**Cryptfall:** A Godot prototype with procedural dungeons, class-based combat, equipment, and upgrades. Still in development. [Game project](projects/cryptfall.en.md)
 
-## An attitude I want to keep
+## How I work
 
 > Don't be afraid to make mistakes. Be afraid of repeating them.
 
-I want each solved problem to leave behind something useful for the next one. That connects my work on testing tools, monitoring, and AI-assisted project delivery.
-
-If your team needs someone who can understand a problem, work through it, and take responsibility for planning and delivery, these cases are an introduction to how I work.
+When I solve a problem, I write down how, so next time nobody starts from scratch.
 
 ---
 
-Work cases describe the problem, my responsibilities, methods, and outcomes. Company code and internal materials are not published due to confidentiality requirements. Personal projects include AI-assisted work, with completed work and future plans clearly distinguished.
+Work cases cover the problem, my role, the approach, and the result. Company code and internal data stay private under confidentiality requirements.

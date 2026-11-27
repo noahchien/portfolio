@@ -1,8 +1,8 @@
-# Team tools | Reproduce problems and reduce missed checks
+# Team tools: virtual exchange and Logger Monitor
 
 [繁體中文](testing-tools.md)　／　**English**
 
-Colleagues come to me when they are unsure how to move a project problem forward. Some of those problems are worth solving with a small tool so that a one-time solution can be reused by a team.
+Colleagues often bring me problems they're stuck on. Some of them can be solved with a small tool that the whole team keeps using.
 
 ## Virtual exchange
 
@@ -20,7 +20,7 @@ Testing relied on manual operation, many special cases were difficult to cover, 
 
 ### What changed
 
-The team can describe difficult scenarios in scripts and revisit real events through logs. The value is a more reproducible set of test conditions and a clearer basis for investigation.
+Scenarios that can't be produced by hand are now a script away, and production incidents can be replayed from logs and examined at leisure.
 
 ## Logger Monitor
 
@@ -39,12 +39,10 @@ Teams checked logs manually, leaving room for issues to be missed.
 
 ### What changed
 
-Some repeatable checks move out of manual inspection and into configurable tooling, reducing manual work and the risk of omissions across different teams.
+Checks that used to be done by hand now run automatically, each team with its own settings, so fewer problems slip through.
 
 ## Technology and disclosure
 
-The two tools use technologies including Python and Node.js. Their individual language assignments have not been separately specified.
-
-No claims are made about zero missed alerts, exact hours saved, or unreported stress-test throughput. Company code, real transaction logs, machine configurations, and internal notification content remain private.
+Both tools are written in Python and Node.js. Company code, transaction logs, and internal settings are not published.
 
 [Back to the portfolio](../README.en.md)

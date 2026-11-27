@@ -1,65 +1,60 @@
-# Low-latency FPGA trading systems | Integration and hardware validation
+# Low-latency trading on FPGA
 
 [繁體中文](fpga.md)　／　**English**
 
-> [!IMPORTANT]
-> **Completed integration within five months after taking over an in-progress National Chiao Tung University project.** The university had planned a five-year development schedule. I took over as project manager partway through the third year, with responsibility for integration, development, and validation.
+This was a five-year university partnership. I took over as project manager partway through its third year, responsible for integration, development, and validation. The development team later shrank from three people to one, and development still finished more than a year ahead of the original schedule.
 
-## Two projects, distinct responsibilities
-
-| Project | My role | Representative outcome |
+| System | My role | Key results |
 | --- | --- | --- |
-| Pre-trade risk gateway | Led requirements, architecture, integration development, and validation after taking over the project | Approximately 0.36 µs for FPGA-internal risk decisions; successful order execution and cancellation in the TWSE test environment |
-| Options parity-arbitrage system | Validation lead in an industry–university collaboration; the original system was developed by a university team | Diagnosed erroneous orders, market-data decoding, and connectivity issues, with comparative tests to verify fixes |
+| Pre-trade risk gateway | Led requirements, architecture, development, and validation | Risk check inside the FPGA in about 0.36 µs; five months from feasibility study to orders filled and cancelled on the stock exchange's test environment |
+| Options put-call parity arbitrage | University built the first version; I led late-stage hardware debugging, fixes, and futures-exchange integration | Erroneous orders 60 → 0; decoder matches 0 → 241,770; FPGA logs in to the futures exchange directly |
 
-## Pre-trade risk gateway: make business rules verifiable in hardware
+## Pre-trade risk gateway
 
-Each order needs price, credit-limit, inventory, and other checks before submission. The aim was predictable hardware processing while preserving the rejection behavior required by existing risk controls.
+Every order has to pass price, credit-limit, and inventory checks before it is sent. Server software used to do this. This system moves the checks into an FPGA so they finish in a fixed time, and it must never let through an order the existing system would block.
 
-### Start with rules and validation references
+### Rules and validation
 
-Rules were distributed across two generations of systems. I extracted machine-readable rules and resolved **57 differences**, establishing a common reference for implementation, testing, and change tracking.
+The rules lived in two generations of existing risk systems that didn't fully agree. I extracted them one by one into a machine-readable rule table and resolved 57 differences. Development and testing both work from that table, so when a rule changes, every affected place can be found.
 
-Validation compared acceptance and rejection decisions for the same orders across an existing-system reference model and the FPGA design, followed by hardware-versus-simulation comparisons. The supplied test summary reports zero violations in the tested set. **Twelve deliberately corrupted data variants** checked that the comparison process could actually detect errors. These results do not establish universal error-free behavior.
+Validation compares two baselines: the same orders go to a reference model of the current system and to the FPGA, and every accept/reject decision is compared. Violations: 0. On hardware, results are compared against simulation, and 12 deliberately corrupted data sets confirm the comparison really catches errors.
 
-### Latency and integration scope
+### Latency and exchange integration
 
-| Area | Result and scope |
+| Item | Result |
 | --- | --- |
-| FPGA-internal risk decision | **109 cycles at 300 MHz, approximately 0.36 µs**; not end-to-end order latency |
-| Integration | **Completed within five months of taking over the university project**, building on its existing foundation |
-| Test environment | Successful execution in the Taiwan Stock Exchange test environment; not a production launch |
-| Cancellation | FPGA retained original-order information to complete cancellation messages; the exchange responded successfully within 3 ms in the reported test, not a general latency guarantee |
-| Timing | Timing closure at 300 MHz, with hardware-specific issues captured in a pre-deployment checklist |
+| Risk check inside the FPGA | 109 clock cycles at 300 MHz, about 0.36 µs. Internal processing only, no network round trip |
+| Exchange | Logged in, had orders filled, and cancelled orders on the stock exchange's test environment |
+| Cancellation | Cancel messages lack the original order's details. The FPGA keeps a copy when the order goes out and fills in the gaps in hardware. The exchange confirmed cancellations within 3 ms |
+| Session safety | Sequence numbers and reconnect rules prevent duplicate orders; when state is uncertain, the system stops for manual review |
+| Timing | Timing closure at 300 MHz. Hardware behavior that simulation can't show is tracked in a pre-deployment checklist |
 
-Cancellation messages lacked complete original-order information, so the FPGA retained the necessary data when submitting new orders. Connection sequence and reconnection handling addressed duplicate-submission risks after disconnects or restarts. Uncertain states stopped processing for manual reconciliation.
+The system is the base for a follow-on project and is not in production yet.
 
-**Technology:** Alveo U50, HLS C++, 10G Ethernet/TCP, FIX 4.4, and timing closure at 300 MHz.
+`Alveo U50` · `HLS C++` · `10G Ethernet / TCP` · `FIX 4.4` · `300 MHz`
 
-## Options parity arbitrage: make a simulated design work correctly on hardware
+## Options put-call parity arbitrage
 
-The original university-developed system received futures-exchange market data, calculated price differences between calls, puts, and futures, and submitted orders in hardware. My responsibility was hardware validation and diagnosis across counters, decoders, and the network environment.
+The system takes live futures-exchange market data, computes the spread between calls, puts, and futures in hardware, and has the FPGA place orders when an arbitrage opportunity appears. The university team built the first version. It passed every simulation and then kept failing on live data. I led the late-stage hardware debugging, the fixes, and the exchange connection.
 
-| Issue | Diagnosis and correction | Observed comparison |
+| Problem | How it was found and fixed | Result |
 | --- | --- | --- |
-| Unintended arbitrage orders | Traced stage counters to a variable synthesized into a constant and corrected it | **60 erroneous orders reduced to 0 in the same-night, same-market-data comparison** |
-| No successful instrument matches | Identified a mismatch between market-data format and decoder, then revised decoding | Matches rose from 0 to 241,770 in the reported observation |
-| Intermittent connectivity | Isolated an address conflict between the host and FPGA | Disabling the conflicting host interface resolved that connection attempt |
-| Different market-data services | Clarified access to eight-updates-per-second aggregated data versus tick-by-tick data | Verified stable receipt of tick-by-tick data on the FPGA |
+| Hardware kept sending orders it shouldn't | Read counters stage by stage and found a variable that synthesis had turned into a constant | Same night, same feed: erroneous orders went from 60 to 0 |
+| Symbol matches stuck at 0 | The market-data format didn't match the decoder; rewrote the decoder | Matches went from 0 to 241,770 |
+| Exchange connection | Connected to the production market-data feed and had the FPGA log in to the futures exchange itself. Logins kept failing and looked like a hardware fault; the host and the FPGA were sharing one network address | With the host's interface turned off, both the futures and options sessions logged in |
+| Market-data channels | Worked out how to obtain the aggregated feed (8 updates per second) and the tick-by-tick feed | Confirmed the FPGA receives the tick-by-tick feed reliably |
 
-## Resource planning and AI collaboration
+## Getting it done alone
 
-When development staffing fell from three people to one, I shifted most implementation to AI assistance while retaining planning, progress tracking, technical direction, code review, on-site checks, and validation decisions. Compared with the original estimated development schedule, development progressed more than a year ahead.
+Once I was the only developer, I handed most implementation to AI tools and kept planning, scheduling, technical direction, code review, on-site checks, and validation. The tools aren't always right: one once assumed a machine had a single network card when it had two, and I had to check the real configuration and correct it. So every conclusion needs evidence: counters, packet captures, and byte-by-byte comparisons between hardware and simulation. If they don't match, work stops until they do.
 
-In one AI collaboration example, it assumed a single network interface in a dual-interface environment. I checked the machine and corrected its understanding. This example is kept distinct from the address-conflict incident above; they are not assumed to be the same event.
+## How I work
 
-## How I approach problems
+- **Evidence first:** Use counters, file hashes, and packet captures to find where results diverge, and follow the data stage by stage.
+- **Verify on hardware, not just in simulation:** Compare hardware output byte by byte. Passing simulation doesn't mean the hardware is right.
+- **Write the spec first:** Rules, message formats, and error handling are written down in a form that can be checked.
+- **Stop when state is unclear:** Keep the evidence, review manually, then decide how to recover.
 
-- **Evidence first:** counters, file hashes, and packet captures help locate where behavior diverges.
-- **Validate on hardware:** byte-level comparisons check actual outputs against simulation.
-- **Specifications before code:** rules, message formats, and failure handling become shared, checkable references.
-- **Stop when state is uncertain:** retain evidence and reconcile before recovery.
-
-Figures come from the project summary supplied for this portfolio; company raw test records are not included in the public repository. Source code, actual orders, IP addresses, and internal partner documents remain private. The system serves as a foundation for follow-on work and is not yet in production.
+Company code, real orders, network settings, and partners' internal documents are not published.
 
 [Back to the portfolio](../README.en.md)
