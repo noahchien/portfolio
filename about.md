@@ -1,4 +1,4 @@
-# 關於 Noah｜簡新佳
+# 關於 阿龍
 
 **繁體中文**　／　[English](about.en.md)
 
