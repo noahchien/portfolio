@@ -17,7 +17,7 @@ Colleagues often come to me when a project gets stuck. Sometimes the next step i
 ## Three projects to start with
 
 > [!IMPORTANT]
-> **FPGA development completed more than a year ahead of the original estimate**, after development staffing fell from three people to one. I owned planning, technical direction, code review, and validation. **Not yet in production**; now a foundation for a follow-on project.
+> **FPGA development completed more than a year ahead of the original estimate**, after development staffing fell from three people to one. I owned planning, technical direction, code review, and validation.
 
 | Project | The challenge | My responsibility and outcome |
 | --- | --- | --- |
